@@ -40,6 +40,7 @@ class ActionClassifier(object):
         self.__net_vec = [CaffeNet(x[0], x[1], dev_id,
                                    input_size=(340, 256) if x[4] else None
                                    ) for x in models]
+        
         self.__net_weights = [float(x[2]) for x in models]
 
         if total_norm_weights is not None:
