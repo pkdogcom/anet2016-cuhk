@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 This scripts demos how to do single video classification using the framework
 Before using this scripts, please download the model files using
@@ -13,6 +16,7 @@ import os
 anet_home = os.environ['ANET_HOME']
 import sys
 sys.path.append(anet_home)
+import io
 
 from pyActionRec.action_classifier import ActionClassifier
 from pyActionRec.anet_db import ANetDB
@@ -52,12 +56,15 @@ scores = rst[0]
 db = ANetDB.get_db("1.3")
 lb_list = db.get_ordered_label_list()
 
+with io.open(os.path.join(anet_home,"data/list_cn.txt"), encoding='utf8') as f:
+    list_cn = f.read().splitlines()
+
 
 idx = np.argsort(scores)[::-1]
 
 print '----------------Classification Results----------------------'
 for i in xrange(10):
     k = idx[i]
-    print lb_list[k], scores[k]
+    print "{} {}:{}".format(lb_list[k], list_cn[k].encode('utf-8'), scores[k])
 
 
